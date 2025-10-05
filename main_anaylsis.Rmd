@@ -1,0 +1,107 @@
+---
+title: "Project Analysis"
+author: "Kimberly Carmona"
+date: "2025-10-05"
+output: html_document
+---
+
+## B2. Descriptive Packages in R
+
+### This part performs descriptive statistics on continuous health variables in the HINTS 2020 data set which includes age, BMI, average drinks per week, and weekly minutes of moderate exercise. The analyses are grouped by smoking status.
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(skimr)
+
+# Import dataset
+data <- read.csv("data/HINTSData_2020_clean.csv")
+
+# Group by smoking status and summarize
+grouped_summary <- data %>%
+  group_by(smokeStat) %>%
+  summarise(
+    Age_mean = mean(Age, na.rm = TRUE),
+    Age_sd = sd(Age, na.rm = TRUE),
+    Age_var = var(Age, na.rm = TRUE),
+    
+    BMI_mean = mean(BMI, na.rm = TRUE),
+    BMI_sd = sd(BMI, na.rm = TRUE),
+    BMI_var = var(BMI, na.rm = TRUE),
+    
+    AvgDrinks_mean = mean(AvgDrinksPerWeek, na.rm = TRUE),
+    AvgDrinks_sd = sd(AvgDrinksPerWeek, na.rm = TRUE),
+    AvgDrinks_var = var(AvgDrinksPerWeek, na.rm = TRUE),
+    
+    WeeklyExercise_mean = mean(WeeklyMinutesModerateExercise, na.rm = TRUE),
+    WeeklyExercise_sd = sd(WeeklyMinutesModerateExercise, na.rm = TRUE),
+    WeeklyExercise_var = var(WeeklyMinutesModerateExercise, na.rm = TRUE)
+  )
+
+# Display results
+grouped_summary
+
+```
+
+**Interpretation:** The table shows differences in average age, BMI, drinking habits and exercise across smoking groups. Group 1, current smokers reported the highest average alcohol consumption at 4.87 drinks per week and the lowest exercise time at an average of 153.96 minutes per week. We can conclude that this group is most likely the group of current smokers. Group 2 consumed fewer drinks at 4.41 drinks per week and 174 minutes of exercise per week. Group 3 had the lowest alcohol consumption at 2.68 drinks per week and 157.98 minutes of exercise per week. Overall, it seems that smokers engage in fewer healthy lifestyle behaviors which in this case is more drinking and less exercise.
+
+## II. Statistical Summary using skim() function
+
+This part uses `skim()` to provide a detailed statistical summary for the continuous variables: Age, BMI, Average Drinks per Week and Weekly Minutes of Moderate Exercise.
+
+```{r}
+# Load the skimr package
+library(skimr)
+
+# Generate statistical summary for continuous variables
+skim(data[, c("Age", "BMI", "AvgDrinksPerWeek", "WeeklyMinutesModerateExercise")])
+
+```
+
+**Interpretation:** The average age is 55.6 years with a standard deviation of 16.6, ranging from 18 to 100 years. This shows the data set includes a wide adult age range.The mean BMI is 28.6, which falls in the overweight category, with values ranging from 10.9 to 73.8. The mean is 3.36 drinks, and most participants report drinking 0 to 4 drinks per week, indicating generally low alcohol consumption. The mean for exercise time is 162 minutes, but the range is 0 to 4620 minutes with a high standard deviation of 271, indicating large differences in exercise levels.
+
+These results suggest that while participants tend to be middle-aged and overweight, their exercise and alcohol habits vary significantly. There are no missing values also ensuring that the statistical summaries are accurate and complete. This information is important in understanding the health behaviors of a population, accurately depicting this sample.
+
+## B3. Writing Functions
+
+```{r}
+# Custom function to summarize continuous variables
+my_summary_func <- function(df, vars) {
+  for (var in vars) {
+    cat("Summary for", var, ":\n")          # Print variable name
+    x <- df[[var]]                          # Extract the column
+
+    # Five-number summary (Min, Q1, Median, Q3, Max)
+    print(fivenum(x))
+    
+    # Mean, Standard Deviation, Variance
+    cat("Mean:", mean(x, na.rm = TRUE), "\n")
+    cat("Standard Deviation:", sd(x, na.rm = TRUE), "\n")
+    cat("Variance:", var(x, na.rm = TRUE), "\n\n")
+  }
+}
+
+# Define the continuous variables to summarize
+continuous_vars <- c("Age", "BMI", "AvgDrinksPerWeek", "WeeklyMinutesModerateExercise")
+
+# Run the custom summary function
+my_summary_func(data, continuous_vars)
+
+```
+
+**Interpretation:**
+
+Age: Participants range from 18 to 100 years of age with a mean of 55.6 years and a SD of 16.6, indicating that there is a wide age distribution in this sample.
+
+BMI: The BMI ranges from 10.9 to 73.8, with a mean of 28.6, indicating that on average participants fall in the overweight category. The SD of 6.5 shows variability in body mass.
+
+Average Drinks per Week: Weekly alcohol consumption ranges from 0 to 70 drinks, with the median being 0. A SD of 6.6 reflects that there are some higher values.
+
+Weekly Minutes of Moderate Exercise: This sample reported a range of 0 to 4620 minutes per week of exercise, with a mean of 162 minutes. The SD of 271 shows that some participants may have been very active and other having little to no exercise time per week.
+
+The mean and standard deviations reflect on the population's health behaviors and how much they vary. Age and BMI vary moderately, while exercise and alcohol consumption seemed to showed skewed results, some of which had extremely low or high values.
+
+```{bash}
+git status
+```
+

@@ -103,5 +103,7 @@ The mean and standard deviations reflect on the population's health behaviors an
 
 ```{bash}
 git status
+git add .
+
 ```
 

@@ -1,9 +1,35 @@
 ---
-title: "Project Analysis"
+title: "Project Analysis Group 1"
 author: "Kimberly Carmona"
 date: "2025-10-05"
 output: html_document
 ---
+## A. Data Management and Wrangling
+
+These lines of code demonstrate the steps to allow the script to read the HINTS dataset. 
+
+```{r read}
+# Load "readr" package to read data
+library(readr)
+
+# Import and read HINTS data
+HINTS_Data <- read_csv("/Users/chloe/Downloads/HINTSData_2020_clean.csv")
+```
+
+# Selecting relevant variables
+
+These lines of code show the names of each variable observed in the HINTS dataset. 
+```{r names}
+# Display names of HINTS datasset
+names(HINTS_Data)
+```
+
+A data frame is then created to only select and read the appropriate variables that will be observed: Quality Care, Age, Gender at Birth, Smoking Status, Race/Ethncity, Average Number of Drinks Per Week, Minutes per week of at least moderate intensity exercise, and Body Mass Index (BMI).
+
+```{r readvars}
+# Select/read necessary variables from the dataset
+HINTS_vars <- HINTS_Data[,c("QualityCare","Age","BirthGender","smokeStat","RaceEthn5", "AvgDrinksPerWeek","WeeklyMinutesModerateExercise", "BMI")]
+```
 
 ## B2. Descriptive Packages in R
 

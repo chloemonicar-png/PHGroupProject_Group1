@@ -13,7 +13,7 @@
 
 <meta name="date" content="2025-10-05" />
 
-<title>Project Analysis</title>
+<title>Project Analysis Group 1</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,15 +350,118 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Project Analysis</h1>
+<h1 class="title toc-ignore">Project Analysis Group 1</h1>
 <h4 class="author">Kimberly Carmona</h4>
 <h4 class="date">2025-10-05</h4>
 
 </div>
 
 
-<div id="b2.-descriptive-packages-in-r" class="section level2">
-<h2>B2. Descriptive Packages in R</h2>
+<div id="a.-data-management-and-wrangling" class="section level2">
+<h2>A. Data Management and Wrangling</h2>
+<p>These lines of code demonstrate the steps to allow the script to read
+the HINTS dataset.</p>
+<pre class="r"><code># Load &quot;readr&quot; package to read data
+library(readr)
+
+# Import and read HINTS data
+HINTS_Data &lt;- read_csv(&quot;/Users/chloe/Downloads/HINTSData_2020_clean.csv&quot;)</code></pre>
+<pre><code>## Rows: 2402 Columns: 17
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (1): PersonID
+## dbl (16): HHID, QualityCare, HealthInsurance, Age, BirthGender, FullTimeOcc_...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div id="selecting-relevant-variables" class="section level3">
+<h3>Selecting relevant variables</h3>
+<p>These lines of code show the names of each variable observed in the
+HINTS dataset.</p>
+<pre class="r"><code># Display names of HINTS datasset
+names(HINTS_Data)</code></pre>
+<pre><code>##  [1] &quot;HHID&quot;                          &quot;PersonID&quot;                     
+##  [3] &quot;QualityCare&quot;                   &quot;HealthInsurance&quot;              
+##  [5] &quot;Age&quot;                           &quot;BirthGender&quot;                  
+##  [7] &quot;FullTimeOcc_Cat&quot;               &quot;MaritalStatus&quot;                
+##  [9] &quot;SexualOrientation&quot;             &quot;AgeGrpB&quot;                      
+## [11] &quot;EducA&quot;                         &quot;RaceEthn5&quot;                    
+## [13] &quot;HHInc&quot;                         &quot;BMI&quot;                          
+## [15] &quot;smokeStat&quot;                     &quot;WeeklyMinutesModerateExercise&quot;
+## [17] &quot;AvgDrinksPerWeek&quot;</code></pre>
+<p>A data frame is then created to only select and read the appropriate
+variables that will be observed: Quality Care, Age, Gender at Birth,
+Smoking Status, Race/Ethncity, Average Number of Drinks Per Week,
+Minutes per week of at least moderate intensity exercise, and Body Mass
+Index (BMI).</p>
+<pre class="r"><code># Select/read necessary variables from the dataset
+HINTS_vars &lt;- HINTS_Data[,c(&quot;QualityCare&quot;,&quot;Age&quot;,&quot;BirthGender&quot;,&quot;smokeStat&quot;,&quot;RaceEthn5&quot;, &quot;AvgDrinksPerWeek&quot;,&quot;WeeklyMinutesModerateExercise&quot;, &quot;BMI&quot;)]</code></pre>
+</div>
+</div>
+<div id="b.-descriptive-analysis" class="section level2">
+<h2>B. Descriptive Analysis</h2>
+<div id="b1.-statistical-summaries" class="section level3">
+<h3>B1. Statistical Summaries:</h3>
+<p>A data frame is created to read only the numeric (continuous)
+variables from the selected data: Age, Average Number of Alcoholic
+Drinks Per Week, Minutes per week of at least moderate intensity
+exercise, and Body Mass Index (BMI).</p>
+<pre class="r"><code>#Select/read continuous variables from necessary variables being analyzed
+HINTS_cont &lt;- HINTS_Data[,c(&quot;Age&quot;,&quot;AvgDrinksPerWeek&quot;,&quot;WeeklyMinutesModerateExercise&quot;, &quot;BMI&quot;)]</code></pre>
+<p>With these variables, a five-number summary is conducted for each
+variable. This includes the minimum, 1st Quartile, Median, 3rd Quartile,
+and maximum.</p>
+<pre class="r"><code>summary(HINTS_cont)</code></pre>
+<pre><code>##       Age         AvgDrinksPerWeek WeeklyMinutesModerateExercise
+##  Min.   : 18.00   Min.   : 0.000   Min.   :   0.0               
+##  1st Qu.: 43.00   1st Qu.: 0.000   1st Qu.:   0.0               
+##  Median : 58.00   Median : 0.000   Median :  90.0               
+##  Mean   : 55.59   Mean   : 3.358   Mean   : 161.8               
+##  3rd Qu.: 68.00   3rd Qu.: 4.000   3rd Qu.: 210.0               
+##  Max.   :100.00   Max.   :70.000   Max.   :4620.0               
+##       BMI       
+##  Min.   :10.90  
+##  1st Qu.:24.00  
+##  Median :27.50  
+##  Mean   :28.61  
+##  3rd Qu.:31.90  
+##  Max.   :73.80</code></pre>
+<p>The five-number summary communicates several aspects about each
+continuous variable.</p>
+<p>The variable <strong>“age”</strong> measures the age of each
+partipant in the study. The minimum age of the participants was 18 years
+old, while the maximum age was 100 years old, indicating the age of the
+participants ranged from ages 18 to 100 years old. 25 percent of
+participants were 43 years old or younger, while 75 percent of
+participants were 68 years old are younger. This summary shows that the
+dataset observed participants that were 18 years or older.</p>
+<p>The variable <strong>“AvgDrinksPerWeek”</strong> measures the average
+number of alcoholic drinks participants consumed per week. The minimum
+average number of alcoholic drinks per week was 0 drinks, while the
+maximum was 70 drinks. This means that average number of alcoholic
+drinks per week ranged from 0 to 70 drinks among participants. Of the
+participants in the study, 25 percent of participants had 0 alcoholic
+drinks per week on average, while 75 percent of participants had an
+average number of alcoholic drinks per week less than or equal to 4
+drinks.</p>
+<p>The variable <strong>“WeeklyMinutesModerateExercise”</strong>
+measures the number of minutes per week that participants exercised at
+least moderate intensity or greater. The minimum number of minutes per
+week of exercise at moderate intensity or greater was 0 minutes, and the
+maximum was 4,620 minutes, meaning the number of minutes per week of at
+least moderate intensity exercise among participants ranged between 0
+and 4,620 minutes. 25 percent of participants exercised for 0 minutes
+per week and 75 percent of participants exercised for 210 minutes or
+less per week at at least moderate intensity.</p>
+<p>The variable <strong>“BMI”</strong> measures participants’ body mass
+index (weight in lbs / height in inches). The minimum BMI of among
+participants was 10.9 (lbs/in)<sup>2</sup>, while the maximum was
+73.8(lbs/in)<sup>2</sup>, meaning the range of BMI in the study was
+between 10.9 and 73(lbs/in)<sup>2</sup>. 25 percent of participants had
+a BMI of 24(lbs/in)<sup>2</sup> or less and 75 percent of participants
+had a BMI of 31.9(lbs/in)<sup>2</sup> or less. ## B2. Descriptive
+Packages in R</p>
+</div>
 <div id="this-part-performs-descriptive-statistics-on-continuous-health-variables-in-the-hints-2020-data-set-which-includes-age-bmi-average-drinks-per-week-and-weekly-minutes-of-moderate-exercise.-the-analyses-are-grouped-by-smoking-status." class="section level3">
 <h3>This part performs descriptive statistics on continuous health
 variables in the HINTS 2020 data set which includes age, BMI, average
@@ -636,6 +739,21 @@ other having little to no exercise time per week.</p>
 behaviors and how much they vary. Age and BMI vary moderately, while
 exercise and alcohol consumption seemed to showed skewed results, some
 of which had extremely low or high values.</p>
+<pre class="bash"><code>git status
+git add 
+</code></pre>
+<pre><code>## On branch main
+## Your branch is up to date with &#39;origin/main&#39;.
+## 
+## Changes not staged for commit:
+##   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+##   (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+##  modified:   main_anaylsis.Rmd
+## 
+## no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+## Nothing specified, nothing added.
+## hint: Maybe you wanted to say &#39;git add .&#39;?
+## hint: Disable this message with &quot;git config set advice.addEmptyPathspec false&quot;</code></pre>
 </div>
 
 

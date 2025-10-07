@@ -133,3 +133,118 @@ git add .
 
 ```
 
+
+
+## Univariate Visualization
+```{r}
+# setup
+library(ggplot2)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load your dataset 
+HINTSData_2020_clean <- read.csv("data/HINTSData_2020_clean.csv")
+```
+
+
+# I. Distribution of QualityCare & RaceEthn5
+# Quality Care Barplot
+
+```{r}
+# QualityCare Barplot
+barplot(table(HINTSData_2020_clean$QualityCare),
+        main="Distribution of Quality of Care",
+        col="purple",
+        xlab="Quality of Care",
+        ylab="Count")
+
+# RaceEthn5 Barplot
+barplot(table(HINTSData_2020_clean$RaceEthn5),
+        main="Distribution of Race/Ethnicity",
+        col="lightblue",
+        xlab="Race/Ethnicity",
+        ylab="Count")
+
+```
+
+**Interpretations** 
+A majority of the participants reported "very good" or "good" quality of care that was received. This can indicate posititive attitudes towards healthcare treatment and prevention.Based on this barplot, the majority of the participants identified as white.
+
+```{r}
+#II. Distribution of age and BMI variables 
+# Age Histogram
+hist(HINTSData_2020_clean$Age,
+     main="Distribution of Age",
+     xlab="Age",
+     col="pink",
+     breaks=20)
+
+# BMI Histogram
+hist(HINTSData_2020_clean$BMI,
+     main="Distribution of BMI",
+     xlab="BMI",
+     col="lightgreen",
+     breaks=20)
+```
+
+
+**Interpretations**
+The first histogram show the distrubution of age ranging from around 18 years old-100 years old. The median age can be shown to be around the mid 50s. 
+The second histogram displays the distribution of BMI which ranges from around 16 to just under 70. The cluster seen can be seen as the median at around the mid to early 30s. This suggests that there tends to be older and overweight participants in this study. 
+
+
+
+III. ##III. ggplot visualization analysis 
+```{r}
+#creating visuals using ggplot package
+
+# QualityCare ggplot2
+ggplot(HINTSData_2020_clean, aes(x=QualityCare)) +
+  geom_bar(fill="purple") +
+  labs(title="Distribution of Quality of Care", x="Quality of Care", y="Count")
+
+# RaceEthn5 ggplot2
+ggplot(HINTSData_2020_clean, aes(x=RaceEthn5)) +
+  geom_bar(fill="lightblue") +
+  labs(title="Distribution of Race/Ethnicity", x="Race/Ethnicity", y="Count") +
+  theme(axis.text.x = element_text(angle=45, hjust=1))
+
+# gge ggplot2
+ggplot(HINTSData_2020_clean, aes(x=Age)) +
+  geom_histogram(binwidth=5, fill="yellow", color="grey") +
+  labs(title="Distribution of Age", x="Age", y="Count")
+
+# BMI ggplot2
+ggplot(HINTSData_2020_clean, aes(x=BMI)) +
+  geom_histogram(binwidth=2, fill="lightgreen", color="pink") +
+  labs(title="Distribution of BMI", x="BMI", y="Count")
+
+```
+
+
+##IV Creating single R function 
+
+```{r}
+# Function for categorical variables
+my_visual_func_I <- function(df, var) {
+  ggplot(df, aes_string(x=var)) +
+    geom_bar(fill="orange") +
+    labs(title=paste("Distribution of", var), x=var, y="Count")
+}
+
+# Function for continuous variables
+my_visual_func_II <- function(df, var, binwidth=5) {
+  ggplot(df, aes_string(x=var)) +
+    geom_histogram(binwidth=binwidth, fill="darkblue", color="darkgrey") +
+    labs(title=paste("Distribution of", var), x=var, y="Count")
+}
+
+# Example 
+my_visual_func_I(HINTSData_2020_clean, "QualityCare")
+my_visual_func_I(HINTSData_2020_clean, "RaceEthn5")
+my_visual_func_II(HINTSData_2020_clean, "Age", binwidth=5)
+my_visual_func_II(HINTSData_2020_clean, "BMI", binwidth=2)
+
+```
+
+
